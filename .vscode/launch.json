@@ -1,0 +1,46 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "nwjs",
+      "request": "launch",
+      "name": "Web - Debug",
+      "port": 9222,
+      "webRoot": "${workspaceFolder}/build/html5/",
+      "preLaunchTask": {
+        "type": "haxe",
+        "args": "active configuration"
+      }
+    },
+    {
+      "name": "Desktop - Debug",
+      "request": "launch",
+      "type": "hl",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": {
+        "type": "haxe",
+        "args": "active configuration"
+      }
+    },
+    {
+      "name": "Build Debug - Web",
+      "type": "haxe-eval",
+      "request": "launch",
+      "args": [
+        "--run",
+        "tasks.Build",
+        "--nwjs"
+      ]
+    },
+    {
+      "name": "Build Debug - Hashlink",
+      "type": "haxe-eval",
+      "request": "launch",
+      "args": [
+        "--run",
+        "tasks.Build",
+        "--desktop"
+      ]
+    },
+  ]
+}

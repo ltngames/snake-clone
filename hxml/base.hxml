@@ -1,0 +1,20 @@
+-cp tasks
+-cp src
+-lib heaps
+
+--dce full
+
+-main Main
+
+#if desktop-sdl
+--cmd haxe --run tasks.Build --desktop
+
+#end
+
+#if desktop-dx
+--cmd haxe --run tasks.Build --windows
+#end
+
+#if web
+--cmd haxe --run tasks.Build --web
+#end
