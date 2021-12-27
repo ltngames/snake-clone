@@ -1,5 +1,5 @@
 {
-  "name": "Base Game",
+  "name": "Snake",
   "version": "1.0.0",
   "icon": "./static/icon.png",
   "indexHtml": "./static/index.html",
