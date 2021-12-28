@@ -1,68 +1,64 @@
 package entities;
 
+import hxd.Direction;
 import h2d.RenderContext;
 import hxd.Key;
 import hxd.Math;
 import core.Sprite;
 
-enum Direction {
-  UP;
-  DOWN;
-  LEFT;
-  RIGHT;
-  NONE;
-}
+using Array;
 
 class Player extends Sprite {
   public var SPEED: Int = 2;
-  public var direction: Direction;
+  public var direction: Direction = Up;
+  public var allowUpdate: Bool = true;
 
   public function new(x, y, ?parent) {
     var graphic = Res.img.snake_head.toTile();
     super(x, y, graphic, true, parent);
     tile.setCenterRatio();
-    direction = NONE;
   }
 
   public override function sync(ctx: RenderContext) {
     super.sync(ctx);
-    syncDirection();
-    syncMovement();
+    if (allowUpdate) {
+      syncDirection();
+      syncMovement();
+    }
   }
 
   private function syncDirection() {
-    if (Key.isDown(Key.W) && direction != DOWN) {
-      direction = UP;
+    if (Key.isDown(Key.W) && direction != Down) {
+      direction = Up;
       rotation = 0;
     }
-    if (Key.isDown(Key.S) && direction != UP) {
-      direction = DOWN;
+    if (Key.isDown(Key.S) && direction != Up) {
+      direction = Down;
       rotation = Math.degToRad(180);
     }
-    if (Key.isDown(Key.A) && direction != RIGHT) {
-      direction = LEFT;
+    if (Key.isDown(Key.A) && direction != Right) {
+      direction = Left;
       rotation = Math.degToRad(-90);
     }
-    if (Key.isDown(Key.D) && direction != LEFT) {
-      direction = RIGHT;
+    if (Key.isDown(Key.D) && direction != Left) {
+      direction = Right;
       rotation = Math.degToRad(90);
     }
   }
 
   private function syncMovement() {
     var tmod = hxd.Timer.tmod;
+    x = x;
+    y = y;
     switch direction {
-      case UP:
+      case Up:
         y -= SPEED * tmod;
-      case DOWN:
+      case Down:
         y += SPEED * tmod;
-      case LEFT:
+      case Left:
         x -= SPEED * tmod;
-      case RIGHT:
+      case Right:
         x += SPEED * tmod;
-      case NONE:
-        x = x;
-        y = y;
     }
   }
 }
