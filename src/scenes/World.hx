@@ -1,19 +1,31 @@
 package scenes;
 
+import hxd.Key;
+import hxd.res.DefaultFont;
+import h2d.Console;
 import hxd.Direction;
 import h2d.col.Point;
-import haxe.ds.Vector;
 import entities.Body;
 import core.Scene;
 import entities.Player;
 
 class World extends Scene {
+  public var console: Console;
   public var player: Player;
 
   var bodyParts: Array<Body> = [];
 
+  public function setupConsole() {
+    var consoleFont = DefaultFont.get().clone();
+    console = new Console(consoleFont, this);
+    console.addCommand("addSnakeBody", "Add body part to the snake", [], () -> {
+      addBody();
+    });
+  }
+
   public override function init() {
     player = new Player(width / 2, height / 2, this);
+    setupConsole();
   }
 
   public function addBody() {
@@ -52,7 +64,23 @@ class World extends Scene {
 
   public override function onResize() {}
 
-  public override function update(dt: Float) {}
+  public override function update(dt: Float) {
+    updateConsole();
+  }
+
+  private function updateConsole() {
+    if (Key.isPressed(Key.QWERTY_TILDE)) {
+      if (console.isActive()) {
+        player.allowUpdate = true;
+        console.hide();
+      } else {
+        player.allowUpdate = false;
+        console.runCommand("cls");
+        console.log("Console ready");
+        console.show();
+      }
+    }
+  }
 
   public override function dispose() {}
 }
