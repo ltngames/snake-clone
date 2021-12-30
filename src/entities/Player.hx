@@ -9,7 +9,7 @@ import core.Sprite;
 using Array;
 
 class Player extends Sprite {
-  public var SPEED: Int = 2;
+  public var SPEED: Int = 16;
   public var direction: Direction = Up;
   public var allowUpdate: Bool = true;
 
