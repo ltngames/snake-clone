@@ -1,3 +1,4 @@
+import hxd.Window;
 import core.Scene;
 import scenes.Boot;
 
@@ -25,6 +26,7 @@ class Game extends hxd.App {
     Res.initEmbed();
     #end
     changeScene(new scenes.Boot());
+    hxd.Timer.wantedFPS = 10;
   }
 
   public function changeScene(scene: Scene): Void {
