@@ -1,5 +1,7 @@
 package scenes;
 
+import h2d.Object;
+import entities.Food;
 import hxd.Math;
 import hxd.Key;
 import hxd.res.DefaultFont;
@@ -13,7 +15,9 @@ import entities.Player;
 class World extends Scene {
   public var console: Console;
   public var player: Player;
+  public var foods: Array<Food> = [];
   public var snakeTick: haxe.Timer;
+  public var foodTick: haxe.Timer;
   public var gridSize = 16;
   public var snakeSpeed = 1;
 
@@ -30,8 +34,10 @@ class World extends Scene {
   public override function init() {
     player = new Player(width / 2, height / 2, this);
     setupConsole();
+    foodTick = new haxe.Timer(66);
     snakeTick = new haxe.Timer(66);
     snakeTick.run = moveSnake;
+    foodTick.run = addFood;
   }
 
   public function addBody() {
@@ -49,6 +55,26 @@ class World extends Scene {
     }
 
     bodyParts.push(body);
+  }
+
+  public function randomInt(min: Float, max: Float): Int {
+    return Math.floor(Math.random() * (1 + max - min) + min);
+  }
+
+  public function addFood() {
+    if (foods.length >= 1) {
+      return;
+    }
+    var food = new Food(0, 0, this);
+    var gridLocation = new Point(randomInt(0, width / 16), randomInt(0, height / 16));
+    food.setPosition(gridLocation.x * 16 - 8, gridLocation.y * 16 - 8);
+    foods.push(food);
+  }
+
+  public function collides(objectA: Object, objectB: Object) {
+    var rectA = objectA.getBounds();
+    var rectB = objectB.getBounds();
+    return rectA.intersects(rectB);
   }
 
   public function getNextPosition(x: Float, y: Float, direction: Direction): Point {
@@ -75,6 +101,13 @@ class World extends Scene {
   public override function update(dt: Float) {
     updateConsole();
     updateInput();
+    if (foods[0] != null) {
+      if (collides(player, foods[0])) {
+        addBody();
+        removeChild(foods[0]);
+        foods.shift();
+      }
+    }
   }
 
   private function moveSnake() {
