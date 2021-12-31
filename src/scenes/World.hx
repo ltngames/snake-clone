@@ -1,5 +1,6 @@
 package scenes;
 
+import hxd.Math;
 import hxd.Key;
 import hxd.res.DefaultFont;
 import h2d.Console;
@@ -13,6 +14,8 @@ class World extends Scene {
   public var console: Console;
   public var player: Player;
   public var snakeTick: haxe.Timer;
+  public var gridSize = 16;
+  public var snakeSpeed = 1;
 
   var bodyParts: Array<Body> = [];
 
@@ -27,7 +30,7 @@ class World extends Scene {
   public override function init() {
     player = new Player(width / 2, height / 2, this);
     setupConsole();
-    snakeTick = new haxe.Timer(150);
+    snakeTick = new haxe.Timer(66);
     snakeTick.run = moveSnake;
   }
 
@@ -71,25 +74,55 @@ class World extends Scene {
 
   public override function update(dt: Float) {
     updateConsole();
+    updateInput();
   }
 
   private function moveSnake() {
+    if (console.isActive() == true) {
+      return;
+    }
     var tail = bodyParts[bodyParts.length - 1];
-    if (tail != null && player.allowUpdate) {
+    if (tail != null) {
       var pos = getNextPosition(player.x, player.y, player.direction);
-      tail.setPosition(pos.x, pos.y);
+      tail.setPosition(Math.floor(player.x), Math.floor(player.y));
+      tail.direction = player.direction;
       bodyParts.pop();
       bodyParts.unshift(tail);
+    }
+
+    var moveSpeed = snakeSpeed * gridSize;
+    switch player.direction {
+      case Up:
+        player.y -= moveSpeed;
+      case Down:
+        player.y += moveSpeed;
+      case Left:
+        player.x -= moveSpeed;
+      case Right:
+        player.x += moveSpeed;
+    }
+  }
+
+  private function updateInput() {
+    if (Key.isDown(Key.W) && player.direction != Down) {
+      player.direction = Up;
+    }
+    if (Key.isDown(Key.S) && player.direction != Up) {
+      player.direction = Down;
+    }
+    if (Key.isDown(Key.A) && player.direction != Right) {
+      player.direction = Left;
+    }
+    if (Key.isDown(Key.D) && player.direction != Left) {
+      player.direction = Right;
     }
   }
 
   private function updateConsole() {
     if (Key.isPressed(Key.QWERTY_TILDE)) {
       if (console.isActive()) {
-        player.allowUpdate = true;
         console.hide();
       } else {
-        player.allowUpdate = false;
         console.runCommand("cls");
         console.log("Console ready");
         console.show();

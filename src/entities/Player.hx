@@ -9,9 +9,7 @@ import core.Sprite;
 using Array;
 
 class Player extends Sprite {
-  public var SPEED: Int = 16;
   public var direction: Direction = Up;
-  public var allowUpdate: Bool = true;
 
   public function new(x, y, ?parent) {
     var graphic = Res.img.snake_head.toTile();
@@ -21,44 +19,15 @@ class Player extends Sprite {
 
   public override function sync(ctx: RenderContext) {
     super.sync(ctx);
-    if (allowUpdate) {
-      syncDirection();
-      syncMovement();
-    }
-  }
-
-  private function syncDirection() {
-    if (Key.isDown(Key.W) && direction != Down) {
-      direction = Up;
-      rotation = 0;
-    }
-    if (Key.isDown(Key.S) && direction != Up) {
-      direction = Down;
-      rotation = Math.degToRad(180);
-    }
-    if (Key.isDown(Key.A) && direction != Right) {
-      direction = Left;
-      rotation = Math.degToRad(-90);
-    }
-    if (Key.isDown(Key.D) && direction != Left) {
-      direction = Right;
-      rotation = Math.degToRad(90);
-    }
-  }
-
-  private function syncMovement() {
-    var tmod = hxd.Timer.tmod;
-    x = x;
-    y = y;
     switch direction {
       case Up:
-        y -= SPEED * tmod;
+        bitmap.rotation = 0;
       case Down:
-        y += SPEED * tmod;
+        bitmap.rotation = 0;
       case Left:
-        x -= SPEED * tmod;
+        bitmap.rotation = Math.degToRad(-90);
       case Right:
-        x += SPEED * tmod;
+        bitmap.rotation = Math.degToRad(90);
     }
   }
 }
