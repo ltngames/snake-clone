@@ -146,6 +146,7 @@ class World extends Scene {
     updateConsole();
     updateInput();
     updateCollision();
+    updateSnakeBounds();
   }
 
   public function updateCollision() {
@@ -155,6 +156,21 @@ class World extends Scene {
         removeChild(foods[0]);
         foods.shift();
       }
+    }
+  }
+
+  public function updateSnakeBounds() {
+    if (player.x < 0) {
+      player.setPosition(player.x + width, player.y);
+    }
+    if (player.y < 0) {
+      player.setPosition(player.x, player.y + height);
+    }
+    if (player.x > width) {
+      player.setPosition(player.x - width, player.y);
+    }
+    if (player.y > height) {
+      player.setPosition(player.x, player.x - height);
     }
   }
 
