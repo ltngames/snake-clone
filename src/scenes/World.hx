@@ -1,5 +1,6 @@
 package scenes;
 
+import h2d.Graphics;
 import h2d.Object;
 import entities.Food;
 import hxd.Math;
@@ -32,12 +33,40 @@ class World extends Scene {
   }
 
   public override function init() {
+    drawBackground();
     player = new Player(width / 2, height / 2, this);
     setupConsole();
     foodTick = new haxe.Timer(66);
     snakeTick = new haxe.Timer(66);
     snakeTick.run = moveSnake;
     foodTick.run = addFood;
+  }
+
+  public function drawBackground() {
+    var graphics = new h2d.Graphics(this);
+    var cols = Math.floor(width / gridSize);
+    var rows = Math.floor(height / gridSize);
+
+    for (x in 0...cols) {
+      for (y in 0...rows) {
+        var isEven = y % 2 == 0;
+        if (x % 2 == 0) {
+          if (isEven) {
+            graphics.beginFill(0x306230);
+          } else {
+            graphics.beginFill(0x0f380f);
+          }
+        } else {
+          if (isEven) {
+            graphics.beginFill(0x0f380f);
+          } else {
+            graphics.beginFill(0x306230);
+          }
+        }
+        graphics.drawRect(x * gridSize, y * gridSize, width, height);
+      }
+    }
+    graphics.endFill();
   }
 
   public function addBody() {
