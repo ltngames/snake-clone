@@ -23,7 +23,7 @@ class Player extends Sprite {
       case Up:
         bitmap.rotation = 0;
       case Down:
-        bitmap.rotation = 0;
+        bitmap.rotation = Math.degToRad(180);
       case Left:
         bitmap.rotation = Math.degToRad(-90);
       case Right:
