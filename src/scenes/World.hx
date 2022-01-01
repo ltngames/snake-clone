@@ -114,11 +114,15 @@ class World extends Scene {
     }
     var food = new Food(0, 0, this);
     var gridLocation = new Point(randomInt(0, width / 16 - 16), randomInt(0, height / 16 - 16));
-    for (body in bodyParts) {
-      var rect = body.getBounds();
-      if (rect.contains(gridLocation) == false) {
-        food.setPosition(gridLocation.x * gridSize, gridLocation.y * gridSize);
+    if (bodyParts.length > 0) {
+      for (body in bodyParts) {
+        var rect = body.getBounds();
+        if (rect.contains(gridLocation) == false) {
+          food.setPosition(gridLocation.x * gridSize, gridLocation.y * gridSize);
+        }
       }
+    } else {
+      food.setPosition(gridLocation.x * gridSize, gridLocation.y * gridSize);
     }
     foods.push(food);
   }
