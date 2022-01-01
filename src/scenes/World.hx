@@ -145,6 +145,10 @@ class World extends Scene {
   public override function update(dt: Float) {
     updateConsole();
     updateInput();
+    updateCollision();
+  }
+
+  public function updateCollision() {
     if (foods[0] != null) {
       if (collides(player, foods[0])) {
         addBody();
@@ -167,7 +171,7 @@ class World extends Scene {
       bodyParts.unshift(tail);
     }
 
-    var moveSpeed = snakeSpeed * (gridSize - player.bitmap.width / 2);
+    var moveSpeed = snakeSpeed * gridSize;
     switch player.direction {
       case Up:
         player.y -= moveSpeed;
