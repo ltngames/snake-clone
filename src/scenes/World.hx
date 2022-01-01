@@ -37,7 +37,7 @@ class World extends Scene {
     addPlayer();
     setupConsole();
     foodTick = new haxe.Timer(66);
-    snakeTick = new haxe.Timer(66);
+    snakeTick = new haxe.Timer(80);
     snakeTick.run = moveSnake;
     foodTick.run = addFood;
   }
