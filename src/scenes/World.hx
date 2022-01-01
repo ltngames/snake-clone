@@ -34,7 +34,7 @@ class World extends Scene {
 
   public override function init() {
     drawBackground();
-    player = new Player(width / 2, height / 2, this);
+    addPlayer();
     setupConsole();
     foodTick = new haxe.Timer(66);
     snakeTick = new haxe.Timer(66);
@@ -69,6 +69,16 @@ class World extends Scene {
     graphics.endFill();
   }
 
+  public function addPlayer() {
+    player = new Player(0, 0, this);
+    var cols = width / gridSize;
+    var rows = height / gridSize;
+    var halfGrid = gridSize / 2;
+    var x = (cols / 2) * gridSize - halfGrid;
+    var y = (rows / 2) * gridSize - halfGrid;
+    player.setPosition(x, y);
+  }
+
   public function addBody() {
     var prev = bodyParts[bodyParts.length - 1];
     var body: Body;
@@ -96,14 +106,14 @@ class World extends Scene {
     }
     var food = new Food(0, 0, this);
     var gridLocation = new Point(randomInt(0, width / 16), randomInt(0, height / 16));
-    food.setPosition(gridLocation.x * 16 - 8, gridLocation.y * 16 - 8);
+    food.setPosition(gridLocation.x * gridSize, gridLocation.y * gridSize);
     foods.push(food);
   }
 
   public function collides(objectA: Object, objectB: Object) {
     var rectA = objectA.getBounds();
-    var rectB = objectB.getBounds();
-    return rectA.intersects(rectB);
+    var pos = new Point(objectB.x, objectB.y);
+    return rectA.contains(pos);
   }
 
   public function getNextPosition(x: Float, y: Float, direction: Direction): Point {
@@ -152,7 +162,7 @@ class World extends Scene {
       bodyParts.unshift(tail);
     }
 
-    var moveSpeed = snakeSpeed * gridSize;
+    var moveSpeed = snakeSpeed * (gridSize - player.bitmap.width / 2);
     switch player.direction {
       case Up:
         player.y -= moveSpeed;
@@ -166,16 +176,16 @@ class World extends Scene {
   }
 
   private function updateInput() {
-    if (Key.isDown(Key.W) && player.direction != Down) {
+    if (Key.isPressed(Key.W) && player.direction != Down) {
       player.direction = Up;
     }
-    if (Key.isDown(Key.S) && player.direction != Up) {
+    if (Key.isPressed(Key.S) && player.direction != Up) {
       player.direction = Down;
     }
-    if (Key.isDown(Key.A) && player.direction != Right) {
+    if (Key.isPressed(Key.A) && player.direction != Right) {
       player.direction = Left;
     }
-    if (Key.isDown(Key.D) && player.direction != Left) {
+    if (Key.isPressed(Key.D) && player.direction != Left) {
       player.direction = Right;
     }
   }

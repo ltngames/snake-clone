@@ -27,6 +27,7 @@ class Game extends hxd.App {
     #end
     changeScene(new scenes.Boot());
     hxd.Timer.wantedFPS = 10;
+    Window.getInstance().resize(640, 480);
   }
 
   public function changeScene(scene: Scene): Void {
