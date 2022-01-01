@@ -1,5 +1,6 @@
 package scenes;
 
+import ui.Hud;
 import h2d.Graphics;
 import h2d.Object;
 import entities.Food;
@@ -15,8 +16,10 @@ import entities.Player;
 
 class World extends Scene {
   public var console: Console;
+  public var hud: Hud;
   public var player: Player;
   public var foods: Array<Food> = [];
+  public var score: Int = 0;
   public var snakeTick: haxe.Timer;
   public var foodTick: haxe.Timer;
   public var gridSize = 16;
@@ -35,6 +38,7 @@ class World extends Scene {
   public override function init() {
     drawBackground();
     addPlayer();
+    addHud();
     setupConsole();
     foodTick = new haxe.Timer(66);
     snakeTick = new haxe.Timer(80);
@@ -67,6 +71,10 @@ class World extends Scene {
       }
     }
     graphics.endFill();
+  }
+
+  public function addHud() {
+    hud = new Hud(0, 0, this);
   }
 
   public function addPlayer() {
@@ -153,6 +161,8 @@ class World extends Scene {
     if (foods[0] != null) {
       if (collides(player, foods[0])) {
         addBody();
+        hud.changeScore(score);
+        score++;
         removeChild(foods[0]);
         foods.shift();
       }
