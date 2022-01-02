@@ -74,7 +74,9 @@ class World extends Scene {
   }
 
   public function addHud() {
-    hud = new Hud(0, 0, this);
+    hud = new Hud(0, 0, width, height, this);
+    hud.onRetry = onRetryPressed;
+    hud.onToTitle = onToTitlePressed;
   }
 
   public function addPlayer() {
@@ -153,6 +155,27 @@ class World extends Scene {
   }
 
   public override function onResize() {}
+
+  public function onToTitlePressed() {
+    game.changeScene(new scenes.Title());
+  }
+
+  public function onRetryPressed() {
+    for (index => body in bodyParts) {
+      removeChild(body);
+      bodyParts.splice(index, 1);
+    }
+
+    var cols = width / gridSize;
+    var rows = height / gridSize;
+    var halfGrid = gridSize / 2;
+    var x = (cols / 2) * gridSize - halfGrid;
+    var y = (rows / 2) * gridSize - halfGrid;
+    player.setPosition(x, y);
+
+    hud.changeScore(0);
+    hud.hideGameover();
+  }
 
   public override function update(dt: Float) {
     updateConsole();
