@@ -207,7 +207,7 @@ class World extends Scene {
       player.setPosition(player.x - width, player.y);
     }
     if (player.y > height) {
-      player.setPosition(player.x, player.x - height);
+      player.setPosition(player.x, player.y - height);
     }
   }
 
