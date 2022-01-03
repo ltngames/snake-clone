@@ -194,6 +194,15 @@ class World extends Scene {
         foods.shift();
       }
     }
+
+    for (index => body in bodyParts) {
+      if (index == 0) {
+        continue;
+      }
+      if (collides(body, player)) {
+        hud.showGameover();
+      }
+    }
   }
 
   public function updateSnakeBounds() {
@@ -212,7 +221,7 @@ class World extends Scene {
   }
 
   private function moveSnake() {
-    if (console.isActive() == true) {
+    if (console.isActive() == true || hud.isGameoverVisible()) {
       return;
     }
     var tail = bodyParts[bodyParts.length - 1];

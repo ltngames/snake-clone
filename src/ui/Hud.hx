@@ -69,6 +69,10 @@ class Hud extends Sprite {
     toTileText.visible = false;
   }
 
+  public function isGameoverVisible(): Bool {
+    return gameoverText.visible == true;
+  }
+
   private function onRetryPressed(event: Event) {
     if (onRetry != null) {
       onRetry();
