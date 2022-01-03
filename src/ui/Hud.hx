@@ -1,5 +1,6 @@
 package ui;
 
+import hxd.res.Sound;
 import hxd.Event;
 import haxe.macro.Tools.TPositionTools;
 import h2d.col.Bounds;
@@ -15,13 +16,16 @@ class Hud extends Sprite {
   private var toTileText: Text;
   private var width: Int;
   private var height: Int;
+  private var uiSelect: Sound;
+  private var uiOk: Sound;
 
   public var onRetry: () -> Void;
   public var onToTitle: () -> Void;
 
   public function new(x, y, width, height, parent) {
     super(x, y, null, false, parent);
-    trace(getBounds());
+    uiSelect = Res.audio.se.ui_select;
+    uiOk = Res.audio.se.ui_ok;
     var font = DefaultFont.get().clone();
     font.resizeTo(26);
 
@@ -76,18 +80,26 @@ class Hud extends Sprite {
   private function onRetryPressed(event: Event) {
     if (onRetry != null) {
       onRetry();
+      uiOk.play();
     }
   }
 
   private function onToTitlePressed(event: Event) {
     if (onToTitle != null) {
       onToTitle();
+      uiOk.play();
     }
   }
 
-  private function onOverRetry(event: Event) {}
+  private function onOverRetry(event: Event) {
+    uiSelect.stop();
+    uiSelect.play();
+  }
 
-  private function onOverToTitle(event: Event) {}
+  private function onOverToTitle(event: Event) {
+    uiSelect.stop();
+    uiSelect.play();
+  }
 
   public function changeScore(value: Int) {
     scoreText.text = Std.string('Score: ${value}');
