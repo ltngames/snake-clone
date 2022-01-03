@@ -2,10 +2,7 @@ package ui;
 
 import hxd.res.Sound;
 import hxd.Event;
-import haxe.macro.Tools.TPositionTools;
-import h2d.col.Bounds;
 import core.Sprite;
-import h2d.Object;
 import hxd.res.DefaultFont;
 import h2d.Text;
 
