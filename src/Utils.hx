@@ -1,15 +1,19 @@
+import hxd.Window;
 import hxd.System;
 import haxe.Json;
 
 typedef Config = {
   name: String,
-  version: String
+  version: String,
+  width: Int,
+  height: Int
 }
 
 class Utils {
   public static function getSystemData() {
     var data = Res.data.system.entry.getText();
-    return Json.parse(data);
+    var config: Config = Json.parse(data);
+    return config;
   }
 
   public static function getVersion(): String {
