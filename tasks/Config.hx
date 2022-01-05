@@ -8,5 +8,6 @@ typedef Config = {
   buildDir: String,
   enableConsole: Bool,
   width: Int,
-  height: Int
+  height: Int,
+  ignoreWebDpi: Bool
 }

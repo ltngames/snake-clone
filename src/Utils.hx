@@ -2,6 +2,8 @@ import hxd.Window;
 import hxd.System;
 import haxe.Json;
 
+using StringTools;
+
 typedef Config = {
   name: String,
   version: String,
@@ -36,5 +38,36 @@ class Utils {
       case _:
         return "Other";
     }
+  }
+
+  public static function isNwjs(): Bool {
+    var nwExists = true;
+    try {
+      nwExists = untyped nw;
+    } catch (error) {
+      if (error.message.contains('not defined')) {
+        nwExists = false;
+      }
+    }
+    return nwExists;
+  }
+
+  public static function resize(width: Int, height: Int, ?ignoreDpi = false) {
+    #if web
+    var pixelRatio = js.Browser.window.devicePixelRatio;
+    if (pixelRatio > 1) {
+      if (ignoreDpi == true) {
+        width = Math.floor(width / pixelRatio);
+        height = Math.floor(height / pixelRatio);
+      }
+      var canvas = @:privateAccess Window.getInstance().canvas;
+      canvas.style.width = '${width}px';
+      canvas.style.height = '${height}px';
+      if (isNwjs()) {
+        untyped nw.Window.get().resizeTo(width, height);
+      }
+    }
+    #end
+    Window.getInstance().resize(width, height);
   }
 }

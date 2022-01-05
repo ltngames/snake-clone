@@ -73,13 +73,14 @@ class Build {
     File.saveContent('${htmlBuildDir}/package.json', content);
   }
 
-  public static function buildSystemData(config) {
+  public static function buildSystemData(config: Config) {
     var systemData = {
       name: config.name,
       version: config.version,
       enableConsole: config.enableConsole,
       width: config.width,
-      height: config.height
+      height: config.height,
+      ignoreWebDpi: config.ignoreWebDpi
     };
 
     var content: String = Json.stringify(systemData);
