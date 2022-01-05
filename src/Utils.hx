@@ -1,3 +1,4 @@
+import js.html.CanvasElement;
 import hxd.Window;
 import hxd.System;
 import haxe.Json;
@@ -52,12 +53,12 @@ class Utils {
     return nwExists;
   }
 
-  public static function resize(width: Int, height: Int, ?ignoreDpi = false) {
+  public static function resize(width: Int, height: Int, ?ignoreDpi: Bool = false) {
     #if web
-    var pixelRatio = js.Browser.window.devicePixelRatio;
-    var canvas = @:privateAccess Window.getInstance().canvas;
+    var pixelRatio: Float = js.Browser.window.devicePixelRatio;
+    var canvas: CanvasElement = @:privateAccess Window.getInstance().canvas;
 
-    if (pixelRatio > 1 && ignoreDpi == true) {
+    if (pixelRatio > 1 && ignoreDpi) {
       width = Math.floor(width / pixelRatio);
       height = Math.floor(height / pixelRatio);
     }
