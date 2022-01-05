@@ -1,5 +1,6 @@
 package scenes;
 
+import hxd.System;
 import ui.Hud;
 import h2d.Graphics;
 import h2d.Object;
@@ -25,6 +26,9 @@ class World extends Scene {
   public var gridSize = 16;
   public var snakeSpeed = 1;
 
+  public var boardWidth: Int;
+  public var boardHeight: Int;
+
   var bodyParts: Array<Body> = [];
 
   public function setupConsole() {
@@ -36,20 +40,22 @@ class World extends Scene {
   }
 
   public override function init() {
+    boardWidth = width;
+    boardHeight = height;
     drawBackground();
     addPlayer();
     addHud();
     setupConsole();
     foodTick = new haxe.Timer(66);
-    snakeTick = new haxe.Timer(80);
+    snakeTick = new haxe.Timer(66);
     snakeTick.run = moveSnake;
     foodTick.run = addFood;
   }
 
   public function drawBackground() {
     var graphics = new h2d.Graphics(this);
-    var cols = Math.floor(width / gridSize);
-    var rows = Math.floor(height / gridSize);
+    var cols = Math.floor(boardWidth / gridSize);
+    var rows = Math.floor(boardHeight / gridSize);
 
     for (x in 0...cols) {
       for (y in 0...rows) {
@@ -67,22 +73,22 @@ class World extends Scene {
             graphics.beginFill(0x306230);
           }
         }
-        graphics.drawRect(x * gridSize, y * gridSize, width, height);
+        graphics.drawRect(x * gridSize, y * gridSize, gridSize, gridSize);
       }
     }
     graphics.endFill();
   }
 
   public function addHud() {
-    hud = new Hud(0, 0, width, height, this);
+    hud = new Hud(0, 0, boardWidth, boardHeight, this);
     hud.onRetry = onRetryPressed;
     hud.onToTitle = onToTitlePressed;
   }
 
   public function addPlayer() {
     player = new Player(0, 0, this);
-    var cols = width / gridSize;
-    var rows = height / gridSize;
+    var cols = boardWidth / gridSize;
+    var rows = boardHeight / gridSize;
     var halfGrid = gridSize / 2;
     var x = (cols / 2) * gridSize - halfGrid;
     var y = (rows / 2) * gridSize - halfGrid;
@@ -115,7 +121,7 @@ class World extends Scene {
       return;
     }
     var food = new Food(0, 0, this);
-    var gridLocation = new Point(randomInt(0, width / 16 - 16), randomInt(0, height / 16 - 16));
+    var gridLocation = new Point(randomInt(0, boardWidth / 16 - 16), randomInt(0, boardHeight / 16 - 16));
     if (bodyParts.length > 0) {
       for (body in bodyParts) {
         var rect = body.getBounds();
@@ -166,8 +172,8 @@ class World extends Scene {
       bodyParts.splice(index, 1);
     }
 
-    var cols = width / gridSize;
-    var rows = height / gridSize;
+    var cols = boardWidth / gridSize;
+    var rows = boardHeight / gridSize;
     var halfGrid = gridSize / 2;
     var x = (cols / 2) * gridSize - halfGrid;
     var y = (rows / 2) * gridSize - halfGrid;
@@ -207,16 +213,16 @@ class World extends Scene {
 
   public function updateSnakeBounds() {
     if (player.x < 0) {
-      player.setPosition(player.x + width, player.y);
+      player.setPosition(player.x + boardWidth, player.y);
     }
     if (player.y < 0) {
-      player.setPosition(player.x, player.y + height);
+      player.setPosition(player.x, player.y + boardHeight);
     }
-    if (player.x > width) {
-      player.setPosition(player.x - width, player.y);
+    if (player.x > boardWidth) {
+      player.setPosition(player.x - boardWidth, player.y);
     }
-    if (player.y > height) {
-      player.setPosition(player.x, player.y - height);
+    if (player.y > boardHeight) {
+      player.setPosition(player.x, player.y - boardHeight);
     }
   }
 
