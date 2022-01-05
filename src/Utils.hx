@@ -55,19 +55,21 @@ class Utils {
   public static function resize(width: Int, height: Int, ?ignoreDpi = false) {
     #if web
     var pixelRatio = js.Browser.window.devicePixelRatio;
-    if (pixelRatio > 1) {
-      if (ignoreDpi == true) {
-        width = Math.floor(width / pixelRatio);
-        height = Math.floor(height / pixelRatio);
-      }
-      var canvas = @:privateAccess Window.getInstance().canvas;
-      canvas.style.width = '${width}px';
-      canvas.style.height = '${height}px';
-      if (isNwjs()) {
-        untyped nw.Window.get().resizeTo(width, height);
-      }
+    var canvas = @:privateAccess Window.getInstance().canvas;
+
+    if (pixelRatio > 1 && ignoreDpi == true) {
+      width = Math.floor(width / pixelRatio);
+      height = Math.floor(height / pixelRatio);
+    }
+
+    canvas.style.width = '${width}px';
+    canvas.style.height = '${height}px';
+
+    if (isNwjs()) {
+      untyped nw.Window.get().resizeTo(width, height);
     }
     #end
+
     Window.getInstance().resize(width, height);
   }
 }
