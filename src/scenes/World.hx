@@ -18,6 +18,7 @@ import entities.Player;
 
 class World extends Scene {
   public var console: Console;
+  public var entityLayer: Layers;
   public var hudLayer: Layers;
   public var hud: Hud;
   public var player: Player;
@@ -45,6 +46,7 @@ class World extends Scene {
     boardWidth = width;
     boardHeight = height;
     drawBackground();
+    entityLayer = new Layers(this);
     addPlayer();
     addHud();
     setupConsole();
@@ -83,13 +85,14 @@ class World extends Scene {
 
   public function addHud() {
     hudLayer = new Layers(this);
+    hudLayer.ysort(1);
     hud = new Hud(0, 0, boardWidth, boardHeight, hudLayer);
     hud.onRetry = onRetryPressed;
     hud.onToTitle = onToTitlePressed;
   }
 
   public function addPlayer() {
-    player = new Player(0, 0, this);
+    player = new Player(0, 0, entityLayer);
     var cols = boardWidth / gridSize;
     var rows = boardHeight / gridSize;
     var halfGrid = gridSize / 2;
@@ -107,11 +110,11 @@ class World extends Scene {
     var pos: Point;
     if (prev != null) {
       pos = getNextPosition(prev.x, prev.y, prev.direction);
-      body = new Body(pos.x, pos.y, this);
+      body = new Body(pos.x, pos.y, entityLayer);
       body.direction = prev.direction;
     } else {
       pos = getNextPosition(player.x, player.y, player.direction);
-      body = new Body(pos.x, pos.y, this);
+      body = new Body(pos.x, pos.y, entityLayer);
       body.direction = player.direction;
     }
 
