@@ -175,9 +175,14 @@ class World extends Scene {
   }
 
   public function onRetryPressed() {
-    for (index => body in bodyParts) {
-      entityLayer.removeChild(body);
-      bodyParts.splice(index, 1);
+    for (body in bodyParts) {
+      body.remove();
+    }
+
+    bodyParts = [];
+
+    for (index in 0...4) {
+      addBody();
     }
 
     var cols = boardWidth / gridSize;
