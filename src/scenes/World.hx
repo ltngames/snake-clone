@@ -96,6 +96,9 @@ class World extends Scene {
     var x = (cols / 2) * gridSize - halfGrid;
     var y = (rows / 2) * gridSize - halfGrid;
     player.setPosition(x, y);
+    for (index in 0...4) {
+      addBody();
+    }
   }
 
   public function addBody() {
