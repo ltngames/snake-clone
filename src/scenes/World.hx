@@ -203,6 +203,7 @@ class World extends Scene {
       if (collides(player, foods[0])) {
         addBody();
         hud.changeScore(score);
+        Res.audio.se.pickup.play();
         score++;
         removeChild(foods[0]);
         foods.shift();
