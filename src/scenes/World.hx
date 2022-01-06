@@ -1,7 +1,6 @@
 package scenes;
 
 import h2d.Layers;
-import hxd.System;
 import ui.Hud;
 import h2d.Graphics;
 import h2d.Object;
