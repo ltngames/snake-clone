@@ -2,6 +2,17 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Web - Browser Debug",
+      "request": "launch",
+      "type": "pwa-msedge",
+      "file": "./build/html5/index.html",
+      "webRoot": "${workspaceFolder}",
+      "preLaunchTask": {
+        "type": "haxe",
+        "args": "active configuration"
+      }
+    },
+    {
       "type": "nwjs",
       "request": "launch",
       "name": "Web - Debug",
