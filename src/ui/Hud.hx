@@ -40,7 +40,7 @@ class Hud extends Sprite {
     retryText.setPosition(width / 2 - retryText.textWidth / 2, gameoverText.y + 80);
 
     toTileText = createTextButton("To Title", 26, onToTitlePressed, onOverToTitle);
-    toTileText.setPosition(width / 2 - toTileText.textWidth / 2, retryText.y + 30);
+    toTileText.setPosition(width / 2 - toTileText.textWidth / 2, retryText.y + 45);
 
     hideGameover();
   }
