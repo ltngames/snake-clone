@@ -176,7 +176,7 @@ class World extends Scene {
 
   public function onRetryPressed() {
     for (index => body in bodyParts) {
-      removeChild(body);
+      entityLayer.removeChild(body);
       bodyParts.splice(index, 1);
     }
 
