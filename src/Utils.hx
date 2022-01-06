@@ -1,4 +1,6 @@
+#if web
 import js.html.CanvasElement;
+#end
 import hxd.Window;
 import hxd.System;
 import haxe.Json;
