@@ -1,5 +1,6 @@
 package scenes;
 
+import h2d.Layers;
 import hxd.System;
 import ui.Hud;
 import h2d.Graphics;
@@ -17,6 +18,7 @@ import entities.Player;
 
 class World extends Scene {
   public var console: Console;
+  public var hudLayer: Layers;
   public var hud: Hud;
   public var player: Player;
   public var foods: Array<Food> = [];
@@ -80,7 +82,8 @@ class World extends Scene {
   }
 
   public function addHud() {
-    hud = new Hud(0, 0, boardWidth, boardHeight, this);
+    hudLayer = new Layers(this);
+    hud = new Hud(0, 0, boardWidth, boardHeight, hudLayer);
     hud.onRetry = onRetryPressed;
     hud.onToTitle = onToTitlePressed;
   }
