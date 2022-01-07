@@ -27,6 +27,7 @@ class World extends Scene {
   public var foodTick: haxe.Timer;
   public var gridSize = 16;
   public var snakeSpeed = 1;
+  public var isGameover = false;
 
   public var boardWidth: Int;
   public var boardHeight: Int;
@@ -194,6 +195,7 @@ class World extends Scene {
 
     hud.changeScore(0);
     hud.hideGameover();
+    isGameover = false;
   }
 
   public override function update(dt: Float) {
@@ -204,6 +206,9 @@ class World extends Scene {
   }
 
   public function updateCollision() {
+    if (isGameover) {
+      return;
+    }
     if (foods[0] != null) {
       if (collides(player, foods[0])) {
         addBody();
@@ -221,6 +226,8 @@ class World extends Scene {
       }
       if (collides(body, player)) {
         hud.showGameover();
+        isGameover = true;
+        Res.audio.se.lose.play();
       }
     }
   }
