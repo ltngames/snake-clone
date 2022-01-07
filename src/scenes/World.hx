@@ -212,7 +212,7 @@ class World extends Scene {
       return;
     }
     if (foods[0] != null) {
-      if (collides(player, foods[0])) {
+      if (collides(foods[0], player)) {
         addBody();
         Res.audio.se.pickup.play();
         score++;
