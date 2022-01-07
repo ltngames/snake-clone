@@ -177,22 +177,22 @@ class World extends Scene {
 
   public function onRetryPressed() {
     var i = bodyParts.length;
-    while (--i > 0) {
-      var body = bodyParts[i];
+    while (i > 0) {
+      var body = bodyParts[i - 1];
       body.remove();
-      bodyParts.splice(i, 1);
+      bodyParts.remove(body);
+      i--;
     }
-
-    for (index in 0...4) {
-      addBody();
-    }
-
     var cols = boardWidth / gridSize;
     var rows = boardHeight / gridSize;
     var halfGrid = gridSize / 2;
     var x = (cols / 2) * gridSize - halfGrid;
     var y = (rows / 2) * gridSize - halfGrid;
     player.setPosition(x, y);
+
+    for (index in 0...4) {
+      addBody();
+    }
 
     hud.changeScore(0);
     hud.hideGameover();
