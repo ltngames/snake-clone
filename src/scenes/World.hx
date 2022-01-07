@@ -194,7 +194,8 @@ class World extends Scene {
       addBody();
     }
 
-    hud.changeScore(0);
+    score = 0;
+    hud.changeScore(score);
     hud.hideGameover();
     isGameover = false;
   }
@@ -213,9 +214,9 @@ class World extends Scene {
     if (foods[0] != null) {
       if (collides(player, foods[0])) {
         addBody();
-        hud.changeScore(score);
         Res.audio.se.pickup.play();
         score++;
+        hud.changeScore(score);
         removeChild(foods[0]);
         foods.shift();
       }
