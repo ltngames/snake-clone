@@ -129,7 +129,7 @@ class World extends Scene {
     if (foods.length >= 1) {
       return;
     }
-    var food = new Food(0, 0, this);
+    var food = new Food(0, 0, entityLayer);
     var gridLocation = new Point(randomInt(0, boardWidth / 16 - 16), randomInt(0, boardHeight / 16 - 16));
     if (bodyParts.length > 0) {
       for (body in bodyParts) {
@@ -217,7 +217,7 @@ class World extends Scene {
         Res.audio.se.pickup.play();
         score++;
         hud.changeScore(score);
-        removeChild(foods[0]);
+        entityLayer.removeChild(foods[0]);
         foods.shift();
       }
     }
