@@ -176,11 +176,12 @@ class World extends Scene {
   }
 
   public function onRetryPressed() {
-    for (body in bodyParts) {
+    var i = bodyParts.length;
+    while (--i > 0) {
+      var body = bodyParts[i];
       body.remove();
+      bodyParts.splice(i, 1);
     }
-
-    bodyParts = [];
 
     for (index in 0...4) {
       addBody();
